@@ -443,6 +443,17 @@ class FitUploaderApp(tk.Tk):
         self.geometry("770x670")
         self.minsize(770, 570)
         self.configure(bg=COLORS['background'])
+
+         # Configurer l'icône de la fenêtre
+        if os.name == "nt":  # Windows
+            icon_path = SCRIPT_DIR / "FitUploader.ico"
+            if icon_path.exists():
+                self.iconbitmap(str(icon_path))
+        elif os.name == "posix":  # macOS/Linux
+            icon_path = SCRIPT_DIR / "FitUploader.png"
+            if icon_path.exists():
+                icon_img = tk.PhotoImage(file=str(icon_path))
+                self.iconphoto(True, icon_img)
         
         # Variables d'état
         self.is_connected = False
@@ -622,7 +633,7 @@ class FitUploaderApp(tk.Tk):
         buttons_frame = ttk.Frame(upload_frame)
         buttons_frame.pack(fill="x")
         self.upload_button = ttk.Button(buttons_frame, text="📤 Upload vers Garmin Connect", 
-                                      command=self.upload_to_garmin, style="Success.TButton")
+                                      command=self.upload_to_garmin, style="Success.TButton", width=25)
         self.upload_button.pack(side="left")
         ttk.Button(buttons_frame, text="🧹 Nettoyer fichiers uploadés", 
                   command=self.cleanup_uploaded).pack(side="left", padx=(5, 0))
